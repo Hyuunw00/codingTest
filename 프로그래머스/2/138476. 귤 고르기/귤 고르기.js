@@ -8,15 +8,14 @@ function solution(k, tangerine) {
 
   let count = 0;
   while (k > 0) {
-    if (k <= newArr[0]) {
-      count++;
-      return count;
-    } else {
-      count++;
+    count++;
+    if (k <= newArr[0]) break;
+    else {
       k -= newArr[0];
       newArr.shift();
     }
   }
+  return count;
 }
 
 console.log(solution(6, [1, 3, 2, 5, 4, 5, 2, 3]));
