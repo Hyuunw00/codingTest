@@ -4,10 +4,12 @@
 // 만약 서로다른 포켓몬의 갯수 >= n/2  ->n/2개
 // 서다른 포켓몬의 갯수 < n/2 -> 서로다른 포켓몬의 갯수
 function solution(nums) {
-  const poketmon = new Set(nums);
+  const poketmon = [...new Set(nums)];
   const pickCount = Math.floor(nums.length / 2);
 
-  return poketmon.size >= pickCount ? pickCount : poketmon.size;
+  return poketmon.length >= pickCount ? pickCount : poketmon.length;
 }
 
 console.log(solution([3, 1, 2, 3]));
+console.log(solution([3, 3, 3, 2, 2, 4]));
+console.log(solution([3, 3, 3, 2, 2, 2]));
