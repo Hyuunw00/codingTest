@@ -1,15 +1,12 @@
+// phone_book의 길이가 최대 백만... -> 시간복잡도 n2이상의 풀이로 불가능
 
 function solution(phone_book) {
   phone_book.sort();
 
-  for (let num = 0; num < phone_book.length - 1; num++) {
-    if (
-      phone_book[num] ===
-      phone_book[num + 1].substring(0, phone_book[num].length)
-    )
-      return false;
-  }
-  return true;
+  return !phone_book.some((_, index) => {
+    if (index === phone_book.length - 1) return false;
+    return phone_book[index + 1].startsWith(phone_book[index]);
+  });
 }
 
 console.log(solution(["119", "97674223", "1195524421"]));
