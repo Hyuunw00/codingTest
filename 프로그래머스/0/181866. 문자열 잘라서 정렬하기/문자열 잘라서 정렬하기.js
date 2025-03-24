@@ -1,8 +1,8 @@
 function solution(myString) {
     /*
     아이디어
-     x를 기준으로 myString을 split한다. 
-     split된 배열을 사전순으로 정렬한다.
+    정규표현식과 math 메서드를 활용해서 x만 빼고 뽑아낸다. 
+     
     
     시간복잡도
     O(n+nlogn) = O(nlogn);
@@ -11,7 +11,7 @@ function solution(myString) {
     정렬 알고리즘
     */
     
-    const newArr= myString.split('x').filter(item=>item!=='');
+    const newArr= myString.match(/[^x]+/g);
     
     return newArr.sort();
     
