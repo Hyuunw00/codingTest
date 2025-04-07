@@ -6,71 +6,65 @@ const input = fs
   .split("\n");
 
 const [N, M, V] = input.shift().split(" ").map(Number);
+const edgeArr = input.map((item) => item.split(" ").map(Number));
+// ---------------
 
-const arr = [];
-for (let i of input) {
-  arr.push(i.split(" ").map(Number));
+// 인접리스트
+const list = new Map();
+for (let i = 0; i < edgeArr.length; i++) {
+  const [node1, node2] = edgeArr[i];
+  if (!list.has(node1)) list.set(node1, []);
+  if (!list.has(node2)) list.set(node2, []);
+  list.get(node1).push(node2);
+  list.get(node2).push(node1);
+}
+for (let [key, value] of list) {
+  list.set(
+    key,
+    value.sort((a, b) => a - b)
+  );
 }
 
-// -------------
+const currentNode = V;
 
-const resultDfs = [];
-const resultBfs = [];
+// 1. DFS
+const visitedDFS = {};
+const resultDFS = [];
 
-const map = new Map();
+visitedDFS[currentNode] = true;
 
-for (let [start, end] of arr) {
-  if (!map.get(start)) {
-    map.set(start, []);
-  }
-  if (!map.get(end)) {
-    map.set(end, []);
-  }
-  map.get(start).push(end);
-  map.get(end).push(start);
-}
+DFS(currentNode);
 
-const visitedDFS = new Array(N).fill(false);
-const visitedBFS = new Array(N).fill(false);
-
-visitedBFS[V - 1] = true;
-let queue = [V];
-
-// BFS
-while (queue.length > 0) {
-  const value = queue.shift();
-  resultBfs.push(value);
-  const nodes = map.get(value) || []; // undefined일 경우 빈 배열을 사용
-
-  // nodes가 비어있지 않으면 정렬 후 처리
-  nodes.sort((a, b) => a - b);
-
-  for (let node of nodes) {
-    if (!visitedBFS[node - 1]) {
-      visitedBFS[node - 1] = true;
-      queue.push(node);
+function DFS(node) {
+  resultDFS.push(node);
+  const neighborArr = list.get(node) || [];
+  for (let neighbor of neighborArr) {
+    if (!visitedDFS[neighbor]) {
+      visitedDFS[neighbor] = true;
+      DFS(neighbor);
     }
   }
 }
 
-// DFS
-dfs(V);
+console.log(resultDFS.join(" "));
 
-function dfs(value) {
-  if (!visitedDFS[value - 1]) {
-    resultDfs.push(value);
-    visitedDFS[value - 1] = true;
-  } else {
-    return;
-  }
-  const nodes = map.get(value) || []; // undefined일 경우 빈 배열을 사용
-  nodes.sort((a, b) => a - b);
+// 2. BFS
+const visitedBFS = {};
+const queue = [];
+const resultBFS = [];
 
-  for (let i of nodes) {
-    dfs(i);
+queue.push(currentNode);
+visitedBFS[currentNode] = true;
+
+while (queue.length) {
+  const value = queue.shift();
+  resultBFS.push(value);
+  const neighborArr = list.get(value) || [];
+  for (let neighbor of neighborArr) {
+    if (!visitedBFS[neighbor]) {
+      visitedBFS[neighbor] = true;
+      queue.push(neighbor);
+    }
   }
 }
-
-// 출력
-console.log(resultDfs.join(" "));
-console.log(resultBfs.join(" "));
+console.log(resultBFS.join(" "));
