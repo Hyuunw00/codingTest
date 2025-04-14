@@ -5,16 +5,16 @@ const input = fs
 
 let T = Number(input);
 
-const timer = [200, 60, 10];
+const timer = [300, 60, 10];
 const count = [0, 0, 0];
 let i = 0;
 
-while (i < 3) {
-  count[i] = Math.floor(T / timer[i]);
-  T = T % timer[i];
-  i++;
-}
+count[0] = Math.floor(T / timer[0]);
+const T2 = T % timer[0];
+count[1] = Math.floor(T2 / timer[1]);
+const T3 = T2 % timer[1];
+count[2] = Math.floor(T3 / timer[2]);
+const final = T3 % timer[2];
 
-const result = T !== 0 ? -1 : count.join(" ");
-
-console.log(result);
+if (final !== 0) console.log(-1);
+else console.log(count[0] + " " + count[1] + " " + count[2]);
