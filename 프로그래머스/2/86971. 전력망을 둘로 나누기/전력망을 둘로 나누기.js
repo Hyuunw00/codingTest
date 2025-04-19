@@ -21,49 +21,36 @@ function solution(n, wires) {
 
   let min = Infinity;
 
+  const tree = new Map();
+
   for (let [v1, v2] of wires) {
-    const tree = new Map();
+    if (!tree.has(v1)) tree.set(v1, []);
+    if (!tree.has(v2)) tree.set(v2, []);
+    tree.get(v1).push(v2);
+    tree.get(v2).push(v1);
+  }
 
-    for (let [v1, v2] of wires) {
-      if (!tree.has(v1)) tree.set(v1, []);
-      if (!tree.has(v2)) tree.set(v2, []);
-      tree.get(v1).push(v2);
-      tree.get(v2).push(v1);
-    }
-      
-    const visited = {};
-    for (let i = 1; i <= n; i++) {
-      visited[i] = false;
-    }
-      
-    visited[v1] = true;
-    visited[v2] = true;
-      
-    tree.set(
-      v1,
-      tree.get(v1).filter((item) => item !== v2)
-    );
-    tree.set(
-      v2,
-      tree.get(v2).filter((item) => item !== v1)
-    );
-
-    let count = 1;
-    recursion(v1);
-    const restCount =n - count;
-    const dif= Math.abs(restCount-count);
+  for (let [v1, v2] of wires) {
+    const dif = Math.abs(bfs(v1, v2) - bfs(v2, v1));
     min = Math.min(min, dif);
+  }
 
-    function recursion(vertex) {
-      for (let neighbor of tree.get(vertex)) {
-        if (!visited[neighbor]) {
-          count++;
-          visited[neighbor] =true;
-          recursion(neighbor);
-
+  function bfs(rootNode, exceptNode) {
+    let count = 0;
+    const visited = {};
+    const queue = [rootNode];
+    visited[rootNode] = true;
+    while (queue.length) {
+      const node = queue.shift();
+      tree.get(node).forEach((neighbor) => {
+        if (neighbor !== exceptNode && !visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
         }
-      }
+      });
+      count++;
     }
+     return count;
   }
 
   return min;
