@@ -23,25 +23,24 @@ O(n)
 */
 const stack = [];
 let ans = [];
-const result = [];
+let j = 1;
 
-let i = 1;
-let j = 0;
+for (let i = 0; i < arr.length; i++) {
+  const value = arr[i];
 
-while (i <= n) {
-  stack.push(i);
-  ans.push("+");
-  while (stack.length && stack[stack.length - 1] === arr[j]) {
-    ans.push("-");
-    stack.pop();
-    result.push(arr[j]);
+  while (j <= value) {
+    ans.push("+");
+    stack.push(j);
     j++;
   }
-  i++;
+
+  ans.push("-");
+  let stackPop = stack.pop();
+
+  if (stackPop !== value) {
+    ans = ["NO"];
+    break;
+  }
 }
 
-if (result.join("") === arr.join("")) {
-  console.log(ans.join("\n"));
-} else {
-  console.log("NO");
-}
+console.log(ans.join("\n"));
