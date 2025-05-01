@@ -1,14 +1,11 @@
-const readline = require("readline");
+const fs = require("fs");
+const input = fs
+  .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./test.txt")
+  .toString()
+  .trim()
+  .split("\n");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let input = [];
-rl.on("line", (line) => {
-  input.push(line.trim());
-});
+const T = Number(input.shift());
 
 /*
  1. 아이디어
@@ -25,35 +22,24 @@ rl.on("line", (line) => {
 
   */
 
-rl.on("close", () => {
-  let t = Number(input.shift());
-  let index = 0;
-  const results = [];
-
-  for (let i = 0; i < t; i++) {
-    const n = Number(input[index++]);
-    const applicants = [];
-
-    for (let j = 0; j < n; j++) {
-      const [doc, interview] = input[index++].split(" ").map(Number);
-      applicants.push([doc, interview]);
-    }
-
-    // 서류 기준 오름차순 정렬
-    applicants.sort((a, b) => a[0] - b[0]);
-
-    let count = 1;
-    let minRank = applicants[0][1];
-
-    for (let k = 1; k < n; k++) {
-      if (applicants[k][1] < minRank) {
-        count++;
-        minRank = applicants[k][1];
-      }
-    }
-
-    results.push(count);
+const result = [];
+let index = 0;
+for (let i = 0; i < T; i++) {
+  const N = Number(input[index++]);
+  const applicants = [];
+  for (let j = 0; j < N; j++) {
+    const [doc, interview] = input[index++].split(" ").map(Number);
+    applicants.push([doc, interview]);
   }
+  applicants.sort((a, b) => a[0] - b[0]);
+  let minRank = applicants[0][1];
+  let count = 1;
 
-  console.log(results.join("\n"));
-});
+  for (let i = 1; i < applicants.length; i++) {
+    if (applicants[i][1] < minRank) {
+      count++;
+      minRank = applicants[i][1];
+    }
+  }
+  console.log(count);
+}
