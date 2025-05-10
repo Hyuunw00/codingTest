@@ -20,20 +20,26 @@ function solution(record) {
     
     const user= {};
     
+    const actions={
+        'Enter':'들어왔습니다.',
+        'Leave':'나갔습니다.',
+    }
+    
+    const result=[]
     
     record.forEach(el=>{
        const [action,userId,nickname]= el.split(' ');
-       if(action!=='Leave') user[userId]= nickname;
+        
+        if(nickname){
+            user[userId]= nickname;
+        }
+        if(action!=='Change'){
+            result.push([action,userId]);
+        }
     })
     
-    const result=[];
+    return result.map(([action,userId])=>{
+        return `${user[userId]}님이 ${actions[action]}`;
+    })
     
-    record.forEach(el=>{
-      const [action,userId,nickname]= el.split(' ');
-      if(action!=='Change'){
-        const koreanAction = action==='Enter' ? '들어왔습니다.' : '나갔습니다.';
-        result.push(`${user[userId]}님이 ${koreanAction}`)
-      }
-    }) 
-    return result;
 }
