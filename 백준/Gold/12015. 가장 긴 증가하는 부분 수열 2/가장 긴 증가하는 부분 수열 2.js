@@ -33,13 +33,13 @@ for(let i=1;i<arr.length;i++){
             let left=0;
             let right= result.length-1;
 
-            while(left<right){
+            while(left<=right){
                 const mid= Math.floor((left+right)/2);
 
                  if(result[mid]<arr[i]){
                     left= mid+1;
                 }else{
-                    right=mid;
+                    right=mid-1;
                 }
             }
             result[left]= arr[i];
