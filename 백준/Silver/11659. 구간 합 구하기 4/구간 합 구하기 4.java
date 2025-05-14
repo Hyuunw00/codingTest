@@ -25,14 +25,16 @@ public class Main {
             s[i]= s[i-1] + Integer.parseInt(st.nextToken());
         }
         
+        StringBuilder sb= new StringBuilder();
         
         for(int k=0;k<m;k++){
             st= new StringTokenizer(br.readLine());
             int i=  Integer.parseInt(st.nextToken());
             int j=  Integer.parseInt(st.nextToken());
 
-           System.out.println(s[j]- s[i-1]);                
+           sb.append(s[j]-s[i-1]).append('\n');          
         }
+        System.out.println(sb.toString());
     }
     
 }
