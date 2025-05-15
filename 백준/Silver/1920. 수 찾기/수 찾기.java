@@ -30,27 +30,15 @@ public class Main {
         // nArr 정렬
         Arrays.sort(nArr);
         StringBuilder sb =new StringBuilder();
-        
         for(int i=0;i<mArr.length;i++){
             int target= mArr[i];
-            
             int left =0;
             int right= n -1;
-            boolean isBinary= false;
-            while(left<=right){
-                int mid= (left+right) / 2;
-                if(nArr[mid]==target){
-                    sb.append("1\n");
-                    isBinary= true;
-                    break;
-                }
-                else if(nArr[mid]>target){
-                    right= mid-1;
-                }else {
-                    left= mid+1;
-                }
+            if(Arrays.binarySearch(nArr,target)>=0){
+                sb.append("1\n");
+            }else{
+                sb.append("0\n");
             }
-            if(!isBinary) sb.append("0\n");
         }
         
         System.out.println(sb.toString());
