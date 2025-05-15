@@ -28,7 +28,8 @@ public class Main {
          
         for(int i=1;i<=n;i++){
             if(!visited[i]){
-              dfs(i);
+              //dfs(i);
+                bfs(i);
               count++;  
             } 
         }
@@ -43,5 +44,21 @@ public class Main {
                 dfs(i);
             }
         }
+    }
+    public static void bfs(int node){
+        Queue<Integer> queue= new LinkedList<>();
+        visited[node]= true;
+        queue.add(node);
+        while(!queue.isEmpty()){
+            int value= queue.poll();
+                for(int i : graph[value]){
+                     if(!visited[i]){
+                        queue.add(i);
+                        visited[i]= true;
+                }
+            }
+         
+        }
+        
     }
 }
