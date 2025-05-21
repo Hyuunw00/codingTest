@@ -12,11 +12,14 @@ import java.util.*;
 1<M<=N<=8
 
 3. 자료구조
+결과 배열
 
 */
 public class Main {
     static int N,K;
     static StringBuilder sb= new StringBuilder();
+    static int[] arr;
+
 
     public static void main(String args[]) throws IOException{
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
@@ -26,32 +29,28 @@ public class Main {
          K= Integer.parseInt(st.nextToken());
 
 
-        ArrayList<Integer>arr= new ArrayList<>();
+         arr= new int[K];
 
-        for(int i=1;i<=N;i++){
-            recursive(i, arr);
-            arr.clear(); // arr 초기화
-        }
+        
+        recursive(1,0);
 
         System.out.println(sb);
 
 
     }   
-    public static void recursive(int prevValue,ArrayList<Integer> arr){
-        arr.add(prevValue);
-
-        if(arr.size()==K) {
-            for(int i=0;i<arr.size();i++){
-                sb.append(arr.get(i)).append(" ");
+    public static void recursive(int prevValue,int depth){
+ 
+        if(depth==K) {
+            for(int i=0;i<arr.length;i++){
+                sb.append(arr[i]).append(" ");
             }
             sb.append("\n");
             return; 
         }
 
-        for(int i=1;i<=N;i++){
-            if(i<=prevValue) continue;
-            recursive(i,arr);
-            arr.remove(arr.size()-1);
+        for(int i=prevValue;i<=N;i++){
+            arr[depth] =i ;
+            recursive(i+1,depth+1);
         }
     }
 }
