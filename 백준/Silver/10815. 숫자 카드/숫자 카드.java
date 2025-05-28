@@ -16,16 +16,16 @@ nArr 원소 크기 <=1000만 : int
 
  */
 
-public class Main {
+public class Main{
     public static void main(String args[]) throws IOException{
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         StringTokenizer st= new StringTokenizer(br.readLine());
 
-        int[] nArr= new int[N];
+        HashSet<Integer> hs= new HashSet<>();
 
-        for(int i=0;i<nArr.length;i++){
-            nArr[i] = Integer.parseInt(st.nextToken());
+        for(int i=0;i<N;i++){
+            hs.add(Integer.parseInt(st.nextToken()));
         }
         int M = Integer.parseInt(br.readLine());
          st= new StringTokenizer(br.readLine());
@@ -36,13 +36,9 @@ public class Main {
             mArr[i] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.sort(nArr);
-
-
         StringBuilder sb= new StringBuilder();
         for(int i=0;i<mArr.length;i++){
-            int result= Arrays.binarySearch(nArr, mArr[i]);
-            if(result>=0) sb.append("1" +" ");
+            if(hs.contains(mArr[i])) sb.append("1" +" ");
             else sb.append("0" +" ");
         }
 
